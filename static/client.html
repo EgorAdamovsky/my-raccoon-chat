@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+    <title>Клиент</title>
+</head>
+<body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket = io();
+    socket.on("start-chat", function (msg) {
+        alert(msg);
+    });
+    socket.on("input-chat", function (msg) {
+        const d = document.createElement("div");
+        d.innerText = msg;
+        document.body.append(d);
+    });
+    function Click() {
+        socket.emit("chat", document.getElementById("field").value);
+    }
+</script>
+<input id="field" type="text" />
+<button onclick="Click()">Отправить!</button>
+</body>
+</html>
