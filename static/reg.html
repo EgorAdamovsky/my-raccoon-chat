@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
-    <link rel="stylesheet" href="style-reg.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="back">
 
-<form class="main" action="/reg" method="get">
+<form class="main-reg" action="/reg" method="get">
     <div>Введите ник:</div>
-    <input name="nick" id="nick" type="text">
-    <input type="submit" value="Войти">
+    <input class="input-reg" name="nick" id="nick" type="text">
+    <input type="button" value="Войти" onclick="Reg()">
 </form>
 
 <script>
@@ -19,12 +19,10 @@
         req.open('POST', '/reg', true);
         req.setRequestHeader('Content-type', 'application/json; charset=utf8');
         const obj = {body: document.getElementById("nick").value};
-        req.onreadystatechange = Next;
-
-        function Next() {
-            window.location.href = "client.html";
+        req.onload = function () {
+            console.log(req.responseText)
+            window.location.href = "client.html?nick=" + req.responseText.replaceAll("\"", "").replaceAll(" ", "-");
         }
-
         req.send(JSON.stringify(obj));
     }
 </script>

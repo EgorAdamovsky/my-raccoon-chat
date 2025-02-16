@@ -4,28 +4,47 @@
 </head>
 <body>
 <script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="style.css">
+
+<div class="main-chat">
+    <div class="my-input">
+        <input class="input-chat" id="field" type="text"/>
+        <button class="send" onclick="Click()">>></button>
+    </div>
+    <div id="chat"></div>
+</div>
 
 <script>
     let socket = io();
+    const chat = document.getElementById("chat");
+    const inp = document.getElementById("field");
+    const params = new URLSearchParams(window.location.search);
+    const nick = params.get('nick');
 
     socket.on("start-chat", function (msg) {
         console.log(msg);
     });
 
-    socket.on("input-chat", function (msg) {
+    socket.on("input-chat-other", function (msg) {
         const d = document.createElement("div");
-        d.innerText = msg;
-        document.body.append(d);
+        d.className = "to_r";
+        d.innerHTML = msg;
+        chat.append(d);
+    });
+
+    socket.on("input-chat-me", function (msg) {
+        const d = document.createElement("div");
+        d.className= "to_l";
+        d.innerHTML = msg;
+        chat.append(d);
     });
 
     function Click() {
-        socket.emit("chat", document.getElementById("field").value);
+        socket.emit("chat", "<b>" + nick + "</b><br>" + inp.value);
+        inp.value = "";
     }
 
 </script>
-
-<input id="field" type="text"/>
-<button onclick="Click()">Отправить!</button>
 
 </body>
 </html>

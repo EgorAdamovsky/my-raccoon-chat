@@ -16,15 +16,18 @@ app.get("/", (req, res) => {
     res.redirect("reg.html");
 });
 
-app.get("/reg", function (req, res) {
-    console.log(req.query);
-    res.redirect("client.html");
+app.post("/reg", function (req, res) {
+    console.log(req.body);
+    res.json(req.body["body"]);
 });
 
 io.on("connection", (socket) => {
+
     io.emit("start-chat", "С подключением! Ваш ID: " + socket.id);
+
     socket.on("chat", (msg) => {
-        socket.emit("input-chat", socket.id + ": " + msg);
-        socket.broadcast.emit("input-chat", socket.id + ": " + msg);
+        socket.emit("input-chat-me", msg);
+        socket.broadcast.emit("input-chat-other", msg);
     });
+
 });
