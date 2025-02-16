@@ -2,18 +2,23 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const { Server } = require("socket.io");
+const {Server} = require("socket.io");
 const io = new Server(server);
 
-app.use(express.static(__dirname + '/static'));
+app.use(express.json());
+app.use(express.static(__dirname + "/static"));
 
 server.listen(3000, () => {
-    console.log("Сервер запущен!");
+    console.log("Сервер запущен: http://localhost:3000");
 });
 
 app.get("/", (req, res) => {
-    //res.redirect('static/client.html');
-    res.sendFile(__dirname + "/static/client.html");
+    res.redirect("reg.html");
+});
+
+app.get("/reg", function (req, res) {
+    console.log(req.query);
+    res.redirect("client.html");
 });
 
 io.on("connection", (socket) => {
