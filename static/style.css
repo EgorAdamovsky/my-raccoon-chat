@@ -2,7 +2,7 @@
     --line: 30px;
 }
 
-body{
+body {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -27,6 +27,7 @@ body{
     grid-template-rows: [row1] var(--line) [row2] var(--line) [row3] var(--line);
     place-items: center;
 }
+
 .main-chat {
     width: 1440px;
     height: 1040px;
@@ -36,7 +37,7 @@ body{
     grid-template-rows: [start] 880px;
 }
 
-.chat{
+.chat {
     width: auto;
     max-width: 600px;
     height: auto;
@@ -50,7 +51,7 @@ body{
     box-shadow: 0px 4px 20px rgba(48, 48, 48, 0.15);
 }
 
-.main-chat-inside{
+.main-chat-inside {
     display: grid;
     grid-row: auto;
     grid-template-columns: [start] 50% [end] 50%;
@@ -63,7 +64,7 @@ body{
     padding: 0px 40px;
     margin: 40px;
     border-radius: 40px;
-    border: none;    
+    border: none;
     box-shadow: 0px 4px 20px rgba(48, 48, 48, 0.15);
     display: grid;
     grid-template-columns: [start] auto [end] 20%;
@@ -76,8 +77,8 @@ body{
 }
 
 ::placeholder {
-  color: #E2E2E2;
-  }
+    color: #E2E2E2;
+}
 
 .input-chat {
     font-family: inter;
@@ -95,6 +96,7 @@ input[type="submit"] {
     justify-items: center;
     border: none;
 }
+
 .send {
     width: 35px;
     height: 25px;
@@ -107,6 +109,7 @@ input[type="submit"] {
     width: 250px;
     text-align: right;
 }
+
 .to_l {
     padding: 40px;
     width: 250px;

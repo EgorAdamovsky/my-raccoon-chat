@@ -11,9 +11,10 @@
         <div class="chat" id="chat"></div>
     </div>
     <div class="my-input">
-        <input class="input-chat" id="field" type="text" placeholder="Введите сообщение..." />
+        <input class="input-chat" id="field" type="text" placeholder="Введите сообщение..."/>
         <button class="send" onclick="Click()">>></button>
     </div>
+    <div id="members"></div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -21,6 +22,7 @@
     let socket = io();
     const chat = document.getElementById("chat");
     const inp = document.getElementById("field");
+    const members = document.getElementById("members");
     const params = new URLSearchParams(window.location.search);
     const nick = params.get('nick');
 
@@ -40,6 +42,7 @@
     // вывести имеющуюся переписку
     // послать свой ник
     socket.on("start-chat", function (msg) {
+        chat.innerHTML = "";
         for (let i = 0; i < msg.length; i++) {
             PrintSMS([msg[i]["nick"], msg[i]["sms"]], msg[i]["nick"] === nick ? "to_l" : "to_r");
         }
@@ -58,7 +61,19 @@
 
     // КТО ОНЛАЙН
     socket.on("members", function (msg) {
+        members.innerHTML = "";
+        for (let i = 0; i < msg.length; i++) {
+            const o = document.createElement("div");
+            o.innerHTML = msg[i];
+            members.append(o);
+        }
         console.log(msg);
+    });
+
+    // ЕСТЬ ЛИ СЕРВЕР
+    socket.on('disconnect', function () {
+        console.log("Соединение потеряно!");
+        window.location.href = "/";
     });
 
 </script>

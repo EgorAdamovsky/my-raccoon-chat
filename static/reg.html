@@ -30,7 +30,7 @@
                 window.location.href = "client.html?nick=" + req.responseText.replaceAll("\"", "").replaceAll(" ", "-");
             }
             else {
-                alert("Ник занят. Иди нахуй!");
+                alert("Упс... Что-то пошло не так!");
             }
         }
         req.send(JSON.stringify(obj));

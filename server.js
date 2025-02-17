@@ -33,19 +33,24 @@ function AddChat(msg) {
     if (chats.length > MAX_SMS) {
         chats.shift();
     }
-    console.log(chats);
 }
 
 function AddUser(user) {
     for (let i = 0; i < users.length; i++) {
-        if (users[i]["nick"] === user[0]) {
-            if (users[i]["pass"] === user[1]) {
-                return true;
+        if (users[i]["nick"] === user[0]) {         // если такой ник уже есть
+            if (users[i]["pass"] === user[1]) {     // и если пароль правильный
+                if (users[i]["id"] === -1) {        // и если юзер уже не сидит в чате
+                    return true;                    // то допуск к чату разрешен
+                } else {                            // а если сессия уже начата
+                    return false;                   // то что-то явно не так
+                }
+            } else {                                // а если пароль неправильный
+                return false;                       // то никакого доступа
             }
         }
     }
-    users.push(new User(user[0], user[1]));
-    return true;
+    users.push(new User(user[0], user[1]));         // если совпадений не нашлось, то регистрация новичка
+    return true;                                    // и для него чат открыт
 }
 
 function SetUserId(nick, id) {
@@ -66,6 +71,16 @@ function DeleteOnlineUser(id) {
     }
 }
 
+function CreateOnlineList() {
+    let members = [];
+    for (let i = 0; i < users.length; i++) {
+        if (users[i]["id"] !== -1) {
+            members.push(users[i]["nick"]);
+        }
+    }
+    return members;
+}
+
 // API /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 server.listen(3000, () => {
@@ -84,19 +99,19 @@ app.post("/reg", function (req, res) {
     } else {
         res.send("");
     }
-    console.log(users);
 });
 
 // ПОДКЛЮЧЕНИЕ
 io.on("connection", (socket) => {
 
     // ПРИВЕТСТВИЕ ПОЛЬЗОВАТЕЛЯ
-    io.emit("start-chat", chats);
+    socket.emit("start-chat", chats);
 
     // ПРИШЕЛ НИК
     socket.on("my-nick", (msg) => {
         SetUserId(msg, socket.id);
-        console.log(users);
+        socket.emit("members", CreateOnlineList());
+        socket.broadcast.emit("members", CreateOnlineList());
     });
 
     // ПРИШЛО СООБЩЕНИЕ
@@ -109,17 +124,13 @@ io.on("connection", (socket) => {
     // ОТКЛЮЧЕНИЕ
     socket.on('disconnect', () => {
         DeleteOnlineUser(socket.id);
-        console.log(users);
+        socket.broadcast.emit("members", CreateOnlineList());
     });
 
+    // РАССЫЛКА
     setInterval(() => {
-        let members = [];
-        for (let i = 0; i < users.length; i++) {
-            if (users[i]["id"] !== -1) {
-                members.push(users[i]["nick"]);
-            }
-        }
-        socket.emit("members", members);
+        console.log(users);
+        console.log(chats);
     }, 1000);
 
 });
