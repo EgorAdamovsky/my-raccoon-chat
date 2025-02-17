@@ -11,6 +11,8 @@ body{
     margin: 0;
     transform: translate(-50%, -50%);
     display: flex;
+    font-family: inter;
+    font-size: 32px;
 }
 
 .back {
@@ -20,38 +22,78 @@ body{
 .main-reg {
     width: 150px;
     border-radius: 10px;
-    border: 2px solid black;
+    border: 40px solid black;
     display: grid;
     grid-template-rows: [row1] var(--line) [row2] var(--line) [row3] var(--line);
     place-items: center;
 }
 .main-chat {
-    width: 300px;
-    border-radius: 10px;
+    width: 1440px;
+    height: 1040px;
+    border-radius: 40px;
     border: 2px solid black;
     display: grid;
-    grid-template-rows: [row1] var(--line) [row2];
-    place-items: center;
-
+    grid-template-rows: [start] 880px;
 }
+
+.chat{
+    width: auto;
+    max-width: 600px;
+    height: auto;
+    /*overflow: auto;*/
+    margin-bottom: 40px;
+    border-radius: 40px;
+    border: none;
+    font-family: inter;
+    font-size: 32px;
+    color: #303030;
+    box-shadow: 0px 4px 20px rgba(48, 48, 48, 0.15);
+}
+
+.main-chat-inside{
+    display: grid;
+    grid-row: auto;
+    grid-template-columns: [start] 50% [end] 50%;
+    margin: 40px;
+}
+
 .my-input {
-    display: flex;
-    height: 25px;
-    place-items: center;
+    width: 1290px;
+    height: 80px;
+    padding: 0px 40px;
+    margin: 40px;
+    border-radius: 40px;
+    border: none;    
+    box-shadow: 0px 4px 20px rgba(48, 48, 48, 0.15);
+    display: grid;
+    grid-template-columns: [start] auto [end] 20%;
+    grid-template-rows: [start] auto;
+    align-items: center;
 }
 
 .input-reg {
     width: 117px;
 }
+
+::placeholder {
+  color: #E2E2E2;
+  }
+
 .input-chat {
-    width: 255px;
-    height: 25px;
-    border-radius: 7px;
+    font-family: inter;
+    font-size: 32px;
+    color: #303030;
+    border: none;
+}
+
+.input-chat:focus {
+    outline: none;
 }
 
 input[type="submit"] {
     width: 125px;
     justify-items: center;
+    border: none;
 }
 .send {
     width: 35px;
@@ -61,10 +103,12 @@ input[type="submit"] {
 }
 
 .to_r {
+    padding: 40px;
     width: 250px;
     text-align: right;
 }
 .to_l {
+    padding: 40px;
     width: 250px;
     text-align: left;
 }
