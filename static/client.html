@@ -1,10 +1,10 @@
 <html lang="en">
 <head>
-    <title>Клиент</title>
+    <title>Енотный чатик</title>
+    <link rel="icon" href="raccoon.ico">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<script src="/socket.io/socket.io.js"></script>
-<link rel="stylesheet" href="style.css">
 
 <div class="main-chat">
     <div class="main-chat-inside">
@@ -16,6 +16,7 @@
     </div>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
     const chat = document.getElementById("chat");
@@ -23,28 +24,42 @@
     const params = new URLSearchParams(window.location.search);
     const nick = params.get('nick');
 
-    socket.on("start-chat", function (msg) {
-        console.log(msg);
-    });
-
-    socket.on("input-chat-other", function (msg) {
-        const d = document.createElement("div");
-        d.className = "to_r";
-        d.innerHTML = msg;
-        chat.append(d);
-    });
-
-    socket.on("input-chat-me", function (msg) {
-        const d = document.createElement("div");
-        d.className= "to_l";
-        d.innerHTML = msg;
-        chat.append(d);
-    });
+    function PrintSMS(msg, style) {
+        const block = document.createElement("div");
+        block.className = style;
+        block.innerHTML = "<b>" + msg[0] + "</b>:<br>" + msg[1];
+        chat.append(block);
+    }
 
     function Click() {
-        socket.emit("chat", "<b>" + nick + "</b><br>" + inp.value);
+        socket.emit("chat", [nick, inp.value]);
         inp.value = "";
     }
+
+    // ПЕРВОЕ ПОДКЛЮЧЕНИЕ
+    // вывести имеющуюся переписку
+    // послать свой ник
+    socket.on("start-chat", function (msg) {
+        for (let i = 0; i < msg.length; i++) {
+            PrintSMS([msg[i]["nick"], msg[i]["sms"]], msg[i]["nick"] === nick ? "to_l" : "to_r");
+        }
+        socket.emit("my-nick", nick);
+    });
+
+    // СООБЩЕНИЕ ОТ КОГО-ТО
+    socket.on("input-chat-other", function (msg) {
+        PrintSMS(msg, "to_r");
+    });
+
+    // СООБЩЕНИЕ МОЁ
+    socket.on("input-chat-me", function (msg) {
+        PrintSMS(msg, "to_l");
+    });
+
+    // КТО ОНЛАЙН
+    socket.on("members", function (msg) {
+        console.log(msg);
+    });
 
 </script>
 

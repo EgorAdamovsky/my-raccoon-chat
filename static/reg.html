@@ -3,25 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
+    <link rel="icon" href="raccoon.ico">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="back">
 
 <form class="main-reg" action="/reg" method="get">
     <div>Введите ник:</div>
-    <input class="input-reg" name="nick" id="nick" type="text">
+    <input class="login-reg" name="nick" id="nick" type="text">
+    <input class="login-reg" name="pass" id="pass" type="text">
     <input type="button" value="Войти" onclick="Reg()">
 </form>
 
 <script>
     function Reg() {
         let req = new XMLHttpRequest();
-        req.open('POST', '/reg', true);
+        req.open('POST', '/reg', false);
         req.setRequestHeader('Content-type', 'application/json; charset=utf8');
-        const obj = {body: document.getElementById("nick").value};
-        req.onload = function () {
-            console.log(req.responseText)
-            window.location.href = "client.html?nick=" + req.responseText.replaceAll("\"", "").replaceAll(" ", "-");
+        const obj = {
+            nick: document.getElementById("nick").value,
+            pass: document.getElementById("pass").value
+        };
+        req.onreadystatechange = function () {
+            console.log(req.responseText);
+            if (req.responseText !== "") {
+                window.location.href = "client.html?nick=" + req.responseText.replaceAll("\"", "").replaceAll(" ", "-");
+            }
+            else {
+                alert("Ник занят. Иди нахуй!");
+            }
         }
         req.send(JSON.stringify(obj));
     }
