@@ -13,9 +13,10 @@ let chats = [];
 let users = [];
 
 class Chat {
-    constructor(nick, sms) {
+    constructor(nick, sms, time) {
         this.nick = nick;
         this.sms = sms;
+        this.time = time;
     }
 }
 
@@ -29,7 +30,7 @@ class User {
 }
 
 function AddChat(msg) {
-    chats.push(new Chat(msg[0], msg[1]));
+    chats.push(new Chat(msg[0], msg[1], msg[2]));
     if (chats.length > MAX_SMS) {
         chats.shift();
     }
@@ -131,6 +132,6 @@ io.on("connection", (socket) => {
     setInterval(() => {
         console.log(users);
         console.log(chats);
-    }, 1000);
+    }, 5000);
 
 });

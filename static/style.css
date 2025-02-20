@@ -1,75 +1,120 @@
 :root {
     --line: 30px;
+    --rad: 30px;
 }
 
 body {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    transform: translate(-50%, -50%);
     display: flex;
-    font-family: inter;
-    font-size: 32px;
+    justify-content: center;
+    align-items: center;
+    place-items: center;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: "Ubuntu Mono", fantasy;
+    font-size: 20px;
 }
 
 .back {
-    background-color: red;
+    background-color: white;
 }
 
-.main-reg {
+.reg-form {
+    position: absolute;
     width: 150px;
-    border-radius: 10px;
-    border: 40px solid black;
+    height: 150px;
+    top: calc(50% - 150px);
+    left: calc(50% - 75px);
+    border-radius: var(--rad);
+    border: 1px solid black;
     display: grid;
-    grid-template-rows: [row1] var(--line) [row2] var(--line) [row3] var(--line);
+    /*grid-template-rows: [row1] var(--line) [row2] var(--line) [row3] var(--line);*/
     place-items: center;
 }
 
+/*ГЛАВНОЕ ОКНО ЧАТА*/
 .main-chat {
-    width: 1440px;
-    height: 1040px;
-    border-radius: 40px;
+    display: flow;
+    top: 50%;
+    left: 50%;
+    width: 80vw;
+    height: 80%;
+    border-radius: var(--rad);
     border: 2px solid black;
-    display: grid;
-    grid-template-rows: [start] 880px;
+    place-items: center;
 }
 
-.chat {
-    width: auto;
-    max-width: 600px;
-    height: auto;
-    /*overflow: auto;*/
-    margin-bottom: 40px;
-    border-radius: 40px;
-    border: none;
-    font-family: inter;
-    font-size: 32px;
-    color: #303030;
-    box-shadow: 0px 4px 20px rgba(48, 48, 48, 0.15);
-}
-
-.main-chat-inside {
-    display: grid;
-    grid-row: auto;
-    grid-template-columns: [start] 50% [end] 50%;
-    margin: 40px;
-}
-
-.my-input {
-    width: 1290px;
-    height: 80px;
-    padding: 0px 40px;
-    margin: 40px;
-    border-radius: 40px;
-    border: none;
-    box-shadow: 0px 4px 20px rgba(48, 48, 48, 0.15);
-    display: grid;
-    grid-template-columns: [start] auto [end] 20%;
-    grid-template-rows: [start] auto;
+/*ОКНО ФОРУМА*/
+.main-forum {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    margin: 5vw;
+    box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
     align-items: center;
+    justify-content: center;
+    border-radius: var(--rad);
+    overflow: scroll;
+    height: 50vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/*ЧЛЕНЫ*/
+.members {
+    width: 15vw;
+    margin: 5vw 5vw 5vw 0;
+    box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
+    border-radius: var(--rad);
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.member {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-justify: auto;
+    margin: 1vw;
+}
+
+/*ОКНО ВВОДА*/
+.main-input {
+    width: 70vw;
+    margin: 0 5vw 5vw;
+    height: calc(2 * var(--line));
+    border-radius: var(--rad);
+    box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
+    display: grid;
+    grid-template-columns: [start] auto [end] 10vw;
+    grid-template-rows: [start] auto;
+
+}
+
+/*ВВОД ТЕКСТА*/
+.input-chat {
+    font-family: "Ubuntu Mono", fantasy;
+    font-size: 20px;
+    color: #303030;
+    border: none;
+    border-radius: var(--rad);
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
+}
+
+/*КНОПКА ОТПРАВКИ*/
+.input-send {
+    font-family: "Ubuntu Mono", fantasy;
+    font-size: 20px;
+    border: none;
+    border-radius: var(--rad);
+    background-color: gray;
+    box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
+}
+
+/*КОНТЕЙНЕР ЧАТА И ЧЛЕНОВ*/
+.forum-and-members {
+    display: flex;
 }
 
 .login-reg {
@@ -80,12 +125,6 @@ body {
     color: #E2E2E2;
 }
 
-.input-chat {
-    font-family: inter;
-    font-size: 32px;
-    color: #303030;
-    border: none;
-}
 
 .input-chat:focus {
     outline: none;
@@ -97,21 +136,17 @@ input[type="submit"] {
     border: none;
 }
 
-.send {
-    width: 35px;
-    height: 25px;
-    margin-left: 5px;
-    border-radius: 7px;
-}
 
+/*СООБЩЕНИЯ В ЧАТЕ СЛЕВА И СПРАВА*/
 .to_r {
-    padding: 40px;
-    width: 250px;
+    padding: 1vw;
+    width: 45vw;
     text-align: right;
+    word-wrap: break-word;
 }
-
 .to_l {
-    padding: 40px;
-    width: 250px;
+    padding: 1vw;
+    width: 45vw;
     text-align: left;
+    word-wrap: break-word;
 }

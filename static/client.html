@@ -1,20 +1,25 @@
 <html lang="en">
 <head>
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <title>Енотный чатик</title>
     <link rel="icon" href="raccoon.ico">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="main-chat">
-    <div class="main-chat-inside">
-        <div class="chat" id="chat"></div>
+<div class="main-chat" id="all-sms">
+
+    <div class="forum-and-members">
+        <span class="main-forum" id="chat"></span>
+        <span class="members" id="members"></span>
     </div>
-    <div class="my-input">
+
+    <div class="main-input">
         <input class="input-chat" id="field" type="text" placeholder="Введите сообщение..."/>
-        <button class="send" onclick="Click()">>></button>
+        <button class="input-send" onclick="Click()"><b> >> </b></button>
     </div>
-    <div id="members"></div>
+
+
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -29,13 +34,25 @@
     function PrintSMS(msg, style) {
         const block = document.createElement("div");
         block.className = style;
-        block.innerHTML = "<b>" + msg[0] + "</b>:<br>" + msg[1];
+        block.innerHTML = "<b>" + msg[0] + " (" + msg[2] + ")</b><br>" + msg[1];
         chat.append(block);
+        chat.scrollTop = chat.scrollHeight;
     }
 
+    document.addEventListener('keydown', function (event) {
+        if (event.code === 'Enter') {
+            Click();
+        }
+    });
+
     function Click() {
-        socket.emit("chat", [nick, inp.value]);
-        inp.value = "";
+        if (inp.value.trim() !== "") {
+            const d = new Date();
+            let t = d.toTimeString().split(' ')[0];
+            t = t.split(":")[0] + ":" + t.split(":")[1];
+            socket.emit("chat", [nick, inp.value.trim(), t]);
+            inp.value = "";
+        }
     }
 
     // ПЕРВОЕ ПОДКЛЮЧЕНИЕ
@@ -44,7 +61,7 @@
     socket.on("start-chat", function (msg) {
         chat.innerHTML = "";
         for (let i = 0; i < msg.length; i++) {
-            PrintSMS([msg[i]["nick"], msg[i]["sms"]], msg[i]["nick"] === nick ? "to_l" : "to_r");
+            PrintSMS([msg[i]["nick"], msg[i]["sms"], msg[i]["time"]], msg[i]["nick"] === nick ? "to_l" : "to_r");
         }
         socket.emit("my-nick", nick);
     });
@@ -64,6 +81,7 @@
         members.innerHTML = "";
         for (let i = 0; i < msg.length; i++) {
             const o = document.createElement("div");
+            o.className = "member";
             o.innerHTML = msg[i];
             members.append(o);
         }
