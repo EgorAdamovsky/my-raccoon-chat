@@ -16,7 +16,7 @@
 
     <div class="main-input">
         <input class="input-chat" id="field" type="text" placeholder="Введите сообщение..."/>
-        <button class="input-send" onclick="Click()"><b> >> </b></button>
+        <button class="input-send" onclick="Click()"></button>
     </div>
 
 
@@ -28,8 +28,7 @@
     const chat = document.getElementById("chat");
     const inp = document.getElementById("field");
     const members = document.getElementById("members");
-    const params = new URLSearchParams(window.location.search);
-    const nick = params.get('nick');
+    const nick = sessionStorage.getItem("nick");
 
     function PrintSMS(msg, style) {
         const block = document.createElement("div");

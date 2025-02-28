@@ -1,22 +1,22 @@
 :root {
     --line: 30px;
-    --rad: 30px;
+    --rad: 1.5vh;
+    --font: Verdana;
+    --font-size: 16px;
 }
 
+/*ТЕЛО ДОКУМЕНТА*/
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     place-items: center;
     margin: 0;
-    width: 100%;
-    height: 100%;
-    font-family: "Ubuntu Mono", fantasy;
-    font-size: 20px;
-}
-
-.back {
-    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--font);
+    font-size: var(--font-size);
+    background-color: #343434;
 }
 
 .reg-form {
@@ -28,7 +28,6 @@ body {
     border-radius: var(--rad);
     border: 1px solid black;
     display: grid;
-    /*grid-template-rows: [row1] var(--line) [row2] var(--line) [row3] var(--line);*/
     place-items: center;
 }
 
@@ -38,78 +37,91 @@ body {
     top: 50%;
     left: 50%;
     width: 80vw;
-    height: 80%;
+    height: 80vh;
     border-radius: var(--rad);
-    border: 2px solid black;
+    background-color: #676767;
     place-items: center;
+    box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
 }
 
 /*ОКНО ФОРУМА*/
 .main-forum {
-    display: flex;
     flex-direction: column;
     width: 50vw;
-    margin: 5vw;
+    margin: 5vh 5vw;
+    height: 60vh;
     box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
     align-items: center;
     justify-content: center;
     border-radius: var(--rad);
     overflow: scroll;
-    height: 50vh;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    background-color: #999999;
 }
 
 /*ЧЛЕНЫ*/
 .members {
     width: 15vw;
-    margin: 5vw 5vw 5vw 0;
+    margin: 5vh 5vw 5vh 0;
     box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
     border-radius: var(--rad);
     overflow: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    background-color: #999999;
 }
 .member {
     align-items: center;
     justify-content: center;
     text-align: center;
     text-justify: auto;
-    margin: 1vw;
+    margin: 1vh 1vw;
 }
 
 /*ОКНО ВВОДА*/
 .main-input {
     width: 70vw;
-    margin: 0 5vw 5vw;
+    margin: 0 5vw 5vh 5vw;
     height: calc(2 * var(--line));
     border-radius: var(--rad);
-    box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
     display: grid;
-    grid-template-columns: [start] auto [end] 10vw;
+    grid-template-columns: [start] auto [end] 15vw;
     grid-template-rows: [start] auto;
-
 }
 
 /*ВВОД ТЕКСТА*/
 .input-chat {
-    font-family: "Ubuntu Mono", fantasy;
-    font-size: 20px;
-    color: #303030;
+    width: 50vw;
+    height: 5vh;
+    font-family: var(--font);
+    font-size: var(--font-size);
+    color: #000000;
+    background-color: #cccccc;
     border: none;
     border-radius: var(--rad);
-    padding-left: 2.5vw;
-    padding-right: 2.5vw;
+    padding-left: 2.5vh;
+    padding-right: 2.5vh;
+    box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
+}
+::placeholder {
+    color: #808080;
 }
 
 /*КНОПКА ОТПРАВКИ*/
 .input-send {
-    font-family: "Ubuntu Mono", fantasy;
-    font-size: 20px;
+    width: 15vw;
+    height: 5vh;
+    font-family: var(--font);
+    font-size: var(--font-size);
     border: none;
     border-radius: var(--rad);
     background-color: gray;
     box-shadow: 0 4px 20px rgba(48, 48, 48, 0.15);
+    background-image: url("raccoon.ico");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 /*КОНТЕЙНЕР ЧАТА И ЧЛЕНОВ*/
@@ -121,9 +133,7 @@ body {
     width: 117px;
 }
 
-::placeholder {
-    color: #E2E2E2;
-}
+
 
 
 .input-chat:focus {
@@ -139,14 +149,22 @@ input[type="submit"] {
 
 /*СООБЩЕНИЯ В ЧАТЕ СЛЕВА И СПРАВА*/
 .to_r {
-    padding: 1vw;
-    width: 45vw;
+    padding: 1vh 2.5vw;
+    margin: 2.5vh 0 2.5vh 12.5vw;
+    width: 30vw;
+    height: auto;
     text-align: right;
     word-wrap: break-word;
+    background-color: #b2b2b2;
+    border-radius: var(--rad);
 }
 .to_l {
-    padding: 1vw;
-    width: 45vw;
+    padding: 1vh 2.5vw;
+    margin: 2.5vh 0 2.5vh 2.5vw;
+    width: 30vw;
+    height: auto;
     text-align: left;
     word-wrap: break-word;
+    background-color: #cccccc;
+    border-radius: var(--rad);
 }

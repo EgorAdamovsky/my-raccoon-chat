@@ -27,7 +27,8 @@
         req.onreadystatechange = function () {
             console.log(req.responseText);
             if (req.responseText !== "") {
-                window.location.href = "client.html?nick=" + req.responseText.replaceAll("\"", "").replaceAll(" ", "-");
+                sessionStorage.setItem("nick", req.responseText);
+                window.location.href = "client.html";
             }
             else {
                 alert("Упс... Что-то пошло не так!");

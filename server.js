@@ -30,25 +30,32 @@ class User {
 }
 
 function AddChat(msg) {
-    chats.push(new Chat(msg[0], msg[1], msg[2]));
-    if (chats.length > MAX_SMS) {
-        chats.shift();
+    if (msg[0] != null) {
+        chats.push(new Chat(msg[0], msg[1], msg[2]));
+        if (chats.length > MAX_SMS) {
+            chats.shift();
+        }
     }
 }
 
 function AddUser(user) {
-    for (let i = 0; i < users.length; i++) {
-        if (users[i]["nick"] === user[0]) {         // если такой ник уже есть
-            if (users[i]["pass"] === user[1]) {     // и если пароль правильный
-                if (users[i]["id"] === -1) {        // и если юзер уже не сидит в чате
-                    return true;                    // то допуск к чату разрешен
-                } else {                            // а если сессия уже начата
-                    return false;                   // то что-то явно не так
+    if (user[0] !== null && user[0] !== "") {
+        for (let i = 0; i < users.length; i++) {
+            if (users[i]["nick"] === user[0]) {         // если такой ник уже есть
+                if (users[i]["pass"] === user[1]) {     // и если пароль правильный
+                    if (users[i]["id"] === -1) {        // и если юзер уже не сидит в чате
+                        return true;                    // то допуск к чату разрешен
+                    } else {                            // а если сессия уже начата
+                        return false;                   // то что-то явно не так
+                    }
+                } else {                                // а если пароль неправильный
+                    return false;                       // то никакого доступа
                 }
-            } else {                                // а если пароль неправильный
-                return false;                       // то никакого доступа
             }
         }
+    }
+    else {
+        return false;
     }
     users.push(new User(user[0], user[1]));         // если совпадений не нашлось, то регистрация новичка
     return true;                                    // и для него чат открыт
@@ -110,6 +117,10 @@ io.on("connection", (socket) => {
 
     // ПРИШЕЛ НИК
     socket.on("my-nick", (msg) => {
+        if (msg === null) {
+            socket.disconnect();
+            return;
+        }
         SetUserId(msg, socket.id);
         socket.emit("members", CreateOnlineList());
         socket.broadcast.emit("members", CreateOnlineList());
