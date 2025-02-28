@@ -10,7 +10,7 @@ const path = require('path');
 app.use(express.json());
 app.use(express.static(__dirname + "/static"));
 
-const filePath = __dirname + "/static/logs.txt";
+const filePath = __dirname + "/logs.txt";
 const MAX_SMS = 5;
 let chats = [];
 let users = [];
